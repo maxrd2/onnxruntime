@@ -654,8 +654,8 @@ OrtStatusPtr CustomCastKernel::ComputeV2(OrtKernelContext* context) {
   // CustomCast::GetInputType constraint ensures we only get float input
   const float* data = in.GetTensorData<float>();
   double* out_data = ctx.GetOutput(0, shape).GetTensorMutableData<double>();
-  gsl::span<const float> input_span(data, num_elements);
-  gsl::span<double> output_span(out_data, num_elements);
+  gsl::span<const float> input_span(data, std::size_t(num_elements));
+  gsl::span<double> output_span(out_data, std::size_t(num_elements));
 
   std::transform(input_span.begin(), input_span.end(), output_span.begin(),
                  [](float val) { return static_cast<double>(val); });
